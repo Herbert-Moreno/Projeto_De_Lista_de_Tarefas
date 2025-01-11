@@ -64,7 +64,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                             )
                         )
                     ),
-                    Text("${widget.dia}/${widget.mes}",
+                    Text("${widget.dia > 10 ? widget.dia : "0${widget.dia}"}/${widget.mes > 10 ? widget.mes : "0${widget.mes}"}",
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w400,

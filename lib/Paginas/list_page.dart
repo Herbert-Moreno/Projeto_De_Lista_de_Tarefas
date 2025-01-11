@@ -9,8 +9,9 @@ class ListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.amber, scaffoldBackgroundColor: Color(0xffF4F4F4)),
-      home: ListScaffold()
+        theme: ThemeData(primaryColor: Colors.amber, scaffoldBackgroundColor: Color(0xffF4F4F4)),
+        debugShowCheckedModeBanner: false,
+        home: ListScaffold()
     );
   }
 }
