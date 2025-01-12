@@ -82,11 +82,14 @@ class _ListScaffoldState extends State<ListScaffold> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.amber,
-        onPressed: (){
+        onPressed: () async {
+          final next_page = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AddPage())
+          );
           setState(() {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => AddPage())
-            );
+            refresh++;
           });
         },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(200)),
