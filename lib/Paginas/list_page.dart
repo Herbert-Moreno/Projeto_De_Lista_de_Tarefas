@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:todolist/Paginas/add_page.dart';
 import 'package:todolist/widgets/map_tasks.dart';
 import 'package:todolist/widgets/task_widget.dart';
+import 'package:todolist/file_reader.dart';
+
+Future setdata() async {
+  final json = readJsonFile();
+  Map<String, dynamic> data = await json as Map<String, dynamic>;
+  MapTasks.instancia.tasks = data["tasks"];
+  return data;
+}
 
 class ListPage extends StatelessWidget {
   const ListPage({super.key});
@@ -27,6 +35,12 @@ class _ListScaffoldState extends State<ListScaffold> {
   var refresh = 0;
 
   @override
+  void initState() {
+    super.initState();
+    setdata();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -38,14 +52,14 @@ class _ListScaffoldState extends State<ListScaffold> {
               children: [
                 Icon(
                   Icons.task_outlined,
-                  size: 60,
+                  size: 50,
                   weight: 20,
                   color: Color(0xff3E3E3E)
                 ),
                 SizedBox(width: 8),
                 Text("Tarefas:",
                     style: TextStyle(
-                        fontSize: 40,
+                        fontSize: 30,
                         fontWeight: FontWeight.w500,
                         color: Color(0xff3E3E3E)
                     )
@@ -53,7 +67,7 @@ class _ListScaffoldState extends State<ListScaffold> {
               ],
             ),
             IconButton(
-              iconSize: 34,
+              iconSize: 35,
                 onPressed: (){
                   setState(() {
                     refresh++;
@@ -73,9 +87,12 @@ class _ListScaffoldState extends State<ListScaffold> {
             for (int i=0; i < MapTasks.instancia.tasks.length; i++)
               TaskWidget(
                   name: MapTasks.instancia.retorne_elemento(i, "nome"),
+                  desc: MapTasks.instancia.retorne_elemento(i, "desc"),
                   dia: MapTasks.instancia.retorne_elemento(i, "dia"),
                   mes: MapTasks.instancia.retorne_elemento(i, "mes"),
-                  marcador: MapTasks.instancia.retorne_elemento(i, "cor")
+                  marcador: MapTasks.instancia.retorne_elemento(i, "cor"),
+                  tarefacompleta: MapTasks.instancia.retorne_elemento(i, "tarefacompleta"),
+                  index: i
               )
           ],
         )
@@ -83,7 +100,7 @@ class _ListScaffoldState extends State<ListScaffold> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.amber,
         onPressed: () async {
-          final next_page = await Navigator.push(
+          await Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => AddPage())

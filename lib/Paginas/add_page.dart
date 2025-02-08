@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:todolist/widgets/Numero_widget.dart';
 import 'package:todolist/widgets/map_tasks.dart';
 import 'package:todolist/widgets/marker.dart';
+import 'package:todolist/file_reader.dart';
+
+Future setjson() async {
+  final data = MapTasks.instancia.get_mapa();
+  writeJsonFile(data);
+}
 
 class AddPage extends StatefulWidget {
   const AddPage({super.key});
@@ -11,19 +17,38 @@ class AddPage extends StatefulWidget {
 }
 
 class _AddPageState extends State<AddPage> {
-  var nometarefa = '';
+  var nometarefa = "";
+  var desctarefa = "";
   var dia = 1;
   var mes = 1;
-  var cor = Colors.red;
+  var cor = 0xffffc107;
+  var completo = false;
   final controle_texto_tarefa = TextEditingController();
+  final controle_texto_desc = TextEditingController();
   var _group_value = Colors.amber;
 
-  add_to_list(){
+  void add_to_list(){
+    if (_group_value == Colors.amber) {
+      cor = 0xFFFFc107;
+    } else if (_group_value == Colors.red) {
+      cor = 0xFFF44336;
+    } else if (_group_value == Colors.blue) {
+      cor = 0xFF2196F3;
+    } else if (_group_value == Colors.green) {
+      cor = 0xFF4CAF50;
+    } else if (_group_value == Colors.purple) {
+      cor = 0xFF9C27B0;
+    } else {
+      cor = 0xFFFFc107;
+    }
+
     Map<String, dynamic> dados = {
       "nome": nometarefa,
+      "desc": desctarefa,
       "dia": dia,
       "mes": mes,
-      "cor": cor
+      "cor": cor,
+      "tarefacompleta": completo
     };
     MapTasks.instancia.add_to_mapa(dados);
   }
@@ -31,10 +56,12 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
           backgroundColor: Color(0xffF4F4F4)
       ),
       body: Container(
+        height: double.infinity,
         child: Column(
           children: [
             Container(
@@ -75,7 +102,44 @@ class _AddPageState extends State<AddPage> {
                     ),
                 )])
             ), // seletor de nome
-            SizedBox(height: 30),
+            Container(
+                width: double.infinity,
+                height: 130,
+                padding: EdgeInsets.all(15),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Descrição da Tarefa:"),
+                      SizedBox(height: 20),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.all(2),
+                          width: double.infinity,
+                          height: 10,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: TextField(
+                            cursorColor: Colors.amber,
+                            decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.transparent),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.amber),
+                              ),
+                            ),
+                            onChanged: (value){
+                              setState(() {
+                                desctarefa = controle_texto_desc.text;
+                              });
+                            },
+                            controller: controle_texto_desc,
+                          ),
+                        ),
+                      )])
+            ),
             Container(
                 width: double.infinity,
                 height: 300,
@@ -147,7 +211,6 @@ class _AddPageState extends State<AddPage> {
                       )
                 ])
             ), // seletor de data
-            SizedBox(height: 30),
             Container(
                 width: double.infinity,
                 height: 130,
@@ -214,8 +277,8 @@ class _AddPageState extends State<AddPage> {
           backgroundColor: Colors.amber,
           onPressed: (){
             setState(() {
-              cor = _group_value;
               add_to_list();
+              setjson();
               Navigator.pop(context);
             });
           },

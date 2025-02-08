@@ -1,4 +1,3 @@
-
 class MapTasks {
   var tasks = [];
   static MapTasks instancia = MapTasks();
@@ -13,5 +12,9 @@ class MapTasks {
 
   dynamic retorne_elemento(int index, String key){
     return tasks[index][key];
+  }
+  
+  void remove_elemento(int index){
+    tasks.removeAt(index);
   }
 }
