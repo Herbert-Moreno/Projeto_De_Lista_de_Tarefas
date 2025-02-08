@@ -54,4 +54,5 @@ Abaixo estão dois prints do aplicativo em funcionamento:
    flutter run lib/main.dart
    ```
 
-> [!IMPORTANT] APK disponível na pasta readme_assets/app-release.apk
+>[!IMPORTANT] 
+> APK disponível na pasta readme_assets/app-release.apk
