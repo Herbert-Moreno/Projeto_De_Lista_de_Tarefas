@@ -143,7 +143,8 @@ class _AddPageState extends State<AddPage> {
             Container(
                 width: double.infinity,
                 height: 300,
-                padding: EdgeInsets.all(15),
+                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.all(5),
                 child: Column(
                   spacing: 20,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +155,7 @@ class _AddPageState extends State<AddPage> {
                         children: [
                           Container(
                             alignment: Alignment.center,
-                            width: 185,
+                            width: 170,
                             height: 220,
                             decoration: BoxDecoration(
                               color: Colors.amber,
@@ -182,7 +183,7 @@ class _AddPageState extends State<AddPage> {
                           ),
                           Container(
                             alignment: Alignment.center,
-                            width: 185,
+                            width: 170,
                             height: 220,
                             decoration: BoxDecoration(
                               color: Colors.amber,
